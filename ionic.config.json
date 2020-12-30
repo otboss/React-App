@@ -1,0 +1,7 @@
+{
+  "name": "hardware-store",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
