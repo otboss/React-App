@@ -1,0 +1,31 @@
+.product-info-link {
+  text-decoration: none;
+  color: black;
+  .list-item {
+    padding: 10px;
+    width: 100%;
+    height: 110px;
+    border-bottom: 1px solid lightgray;
+    display: flex;
+    position: relative;
+    h1 {
+      margin: 0;
+    }
+    .item-image {
+      display: flex;
+      align-items: center;
+      width: 80px;
+    }
+    .item-description {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-left: 30px;
+      .item-cost-container {
+        padding: 10px 0;
+        font-size: 18px;
+      }
+    }
+  }
+}
