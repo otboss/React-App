@@ -1,24 +1,27 @@
 import { IonButtons, IonContent, IonHeader, IonIcon, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import React from 'react';
+import React, { useState } from 'react';
 import ItemTile from '../../components/ItemTile/ItemTile';
-import { Assets } from '../../misc/Assets';
-import { HardwareItem, ItemCategory } from '../../misc/HardwareItem';
+import { HardwareItem } from '../../misc/HardwareItem';
 import { cartOutline, search } from 'ionicons/icons';
 import './Home.scss';
 import { Link } from 'react-router-dom';
 import { Routes } from '../../misc/Routes';
 import "../../theme/global.scss";
+import { ServerAPI } from '../../misc/ServerAPI';
 
 const Home: React.FC = () => {
-
-  const items: Array<HardwareItem> = [
-    new HardwareItem("Hammer", Assets.hammerImg, ItemCategory.Tools)
-  ];
+  const initialState: Array<HardwareItem> = [];
+  const [hardwareItems, addHardwareItem] = useState(initialState);
 
   const itemTiles = function (): Array<React.ReactElement> {
-    return items.map(hardwareItem => {
+    return hardwareItems.map(hardwareItem => {
       return ItemTile({ hardwareItem });
     });
+  }
+
+  const fetchHardwareItems = async (offset: number, limit: number = 20): Array<HardwareItem> => {
+    await ServerAPI.getHardwareItems();
+
   }
 
   return (

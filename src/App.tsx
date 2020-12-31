@@ -25,17 +25,21 @@ import './theme/variables.scss';
 import Cart from './pages/Cart/Cart';
 import { Routes } from './misc/Routes';
 import ProductInfo from './pages/ProductInfo/ProductInfo';
+import { Provider } from 'react-redux';
+import { store } from './redux/store';
 
 const App: React.FC = () => (
   <IonApp>
-    <IonReactRouter>
-      <IonRouterOutlet>
-        <Route path={"/" + Routes.home} component={Home} exact={true} />
-        <Route path={"/" + Routes.cart} component={Cart} exact={true} />
-        <Route path={"/" + Routes.productInfo} component={ProductInfo} exact={true} />
-        <Route exact path="/" render={() => <Redirect to="/home" />} />
-      </IonRouterOutlet>
-    </IonReactRouter>
+    <Provider store={store}>
+      <IonReactRouter>
+        <IonRouterOutlet>
+          <Route path={"/" + Routes.home} component={Home} exact={true} />
+          <Route path={"/" + Routes.cart} component={Cart} exact={true} />
+          <Route path={"/" + Routes.productInfo} component={ProductInfo} exact={true} />
+          <Route exact path="/" render={() => <Redirect to="/home" />} />
+        </IonRouterOutlet>
+      </IonReactRouter>
+    </Provider>
   </IonApp>
 );
 

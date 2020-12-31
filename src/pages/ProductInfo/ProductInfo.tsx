@@ -6,11 +6,17 @@ import { HardwareItem, ItemCategory } from '../../misc/HardwareItem';
 import { starOutline } from 'ionicons/icons';
 import './ProductInfo.scss';
 import "../../theme/global.scss";
+import { CartActions } from '../../redux/actions/cart';
+import { useSelector, useDispatch } from "react-redux";
+import { ReduxActions } from '../../redux/store';
 
 const ProductInfo: React.FC = (props) => {
+  //@ts-ignore
+  const hardwareItem = useSelector(state => state.productInfoReducer);
+  const dispatch = useDispatch();
 
   const items: Array<HardwareItem> = [
-    new HardwareItem("Hammer", Assets.hammerImg, ItemCategory.Tools)
+    new HardwareItem()
   ];
 
   const itemTiles = function (): Array<React.ReactElement> {
@@ -19,8 +25,9 @@ const ProductInfo: React.FC = (props) => {
     });
   }
 
-  const addToCart = () => {
 
+  const addToCart = (hardwareItem: HardwareItem) => {
+    dispatch(ReduxActions.CartActions.add(hardwareItem))
   }
 
   return (
@@ -69,7 +76,7 @@ const ProductInfo: React.FC = (props) => {
                   <IonInput value={1}></IonInput>
                 </IonItem>
               </div>
-              <IonChip className="add-button"> Add To Cart</IonChip>
+              <IonChip className="add-button" onClick={() => { addToCart(hardwareItem); }}> Add To Cart</IonChip>
             </div>
           </footer>
         </div>

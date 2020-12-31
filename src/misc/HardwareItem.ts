@@ -2,14 +2,17 @@
  * Structures information for a hardware item
  * */
 export class HardwareItem {
-  public category: string;
+  public id: string = "";
+  public category: string = ItemCategory[ItemCategory.Tools];
   public rating: 1 | 1.5 | 2 | 2.5 | 3 | 3.5 | 4 | 4.5 | 5 = 3;
+  public label: string = "";
+  public image: string = "";
   constructor(
-    public label: string,
-    public image: string,
-    category: ItemCategory,
+    category?: ItemCategory
   ) {
-    this.category = ItemCategory[category];
+    if (category != null) {
+      this.category = ItemCategory[category];
+    }
   }
 }
 
