@@ -1,33 +1,54 @@
-import { IonBackButton, IonButton, IonButtons, IonChip, IonContent, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import React from 'react';
-import ItemTile from '../../components/ItemTile/ItemTile';
-import { Assets } from '../../misc/Assets';
-import { HardwareItem, ItemCategory } from '../../misc/HardwareItem';
-import { starOutline } from 'ionicons/icons';
-import './ProductInfo.scss';
-import "../../theme/global.scss";
-import { CartActions } from '../../redux/actions/cart';
+import { IonBackButton, IonButtons, IonChip, IonContent, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonPage, IonTitle, IonToast, IonToolbar } from '@ionic/react';
+import React, { useState } from 'react';
+import { HardwareItem } from '../../misc/HardwareItem';
+import { star, starHalfOutline, starOutline } from 'ionicons/icons';
 import { useSelector, useDispatch } from "react-redux";
 import { ReduxActions } from '../../redux/store';
+import { CartItem } from '../../misc/CartItem';
+import ItemImage from '../../components/ItemImage/ItemImage';
+import './ProductInfo.scss';
+import "../../theme/global.scss";
 
-const ProductInfo: React.FC = (props) => {
+const ProductInfo: React.FC = () => {
   //@ts-ignore
-  const hardwareItem = useSelector(state => state.productInfoReducer);
+  const hardwareItem: HardwareItem = useSelector(state => state.productInfo);
+  const [showAddToCardToast, setShowAddToCardToast] = useState(false);
+  const [itemQuantity, setItemQuantity] = useState(1);
   const dispatch = useDispatch();
 
-  const items: Array<HardwareItem> = [
-    new HardwareItem()
-  ];
-
-  const itemTiles = function (): Array<React.ReactElement> {
-    return items.map(hardwareItem => {
-      return ItemTile({ hardwareItem });
-    });
+  const addToCart = (hardwareItem: HardwareItem, quantity: number) => {
+    dispatch(ReduxActions.CartActions.add(
+      new CartItem(hardwareItem, quantity)
+    ));
+    setShowAddToCardToast(true);
   }
 
+  const setItemQuantityFromField = function (e: any) {
+    if (!isNaN(parseInt(e.target.value))) {
+      setItemQuantity(parseInt(e.target.value));
+      return;
+    }
+    setItemQuantity(1);
+  }
 
-  const addToCart = (hardwareItem: HardwareItem) => {
-    dispatch(ReduxActions.CartActions.add(hardwareItem))
+  const getStars = function (): Array<React.ReactElement> {
+    const stars: Array<React.ReactElement> = [];
+    for (let x = 0; x < parseInt(hardwareItem.rating.toString()); x++) {
+      stars.push(
+        <IonIcon className="rating-star-filled" icon={star}></IonIcon>
+      );
+    }
+    if (hardwareItem.rating.toString().indexOf(".") != -1) {
+      stars.push(
+        <IonIcon className="rating-star-filled" icon={starHalfOutline}></IonIcon>
+      );
+    }
+    for (let x = 0; x < 5 - stars.length; x++) {
+      stars.push(
+        <IonIcon className="rating-star" icon={star}></IonIcon>
+      );
+    }
+    return stars;
   }
 
   return (
@@ -44,26 +65,25 @@ const ProductInfo: React.FC = (props) => {
         <div className="product-info-container">
           <main>
             <div className="product-image">
-              <img />
+              <ItemImage imageURL={[hardwareItem.image]}></ItemImage>
             </div>
             <div className="product-label">
-              <h1>Standard Hammer</h1>
+              <h1>{hardwareItem.label}</h1>
             </div>
             <div className="product-price-container">
               <div className="product-price">
-                <span>$550.00</span>
+                <span>${hardwareItem.cost.toFixed(2)}</span>
                 <div className="additional-details">
-                  <span className="shipping-fee">+24.00</span> shipping & handling
+                  {
+                    hardwareItem.shippingFee > 0 &&
+                    (<span><span className="shipping-fee">+${hardwareItem.shippingFee.toFixed(2)}</span> shipping and handling</span>)
+                  }
                 </div>
               </div>
               <div className="product-rating">
-                <IonIcon className="rating-star" icon={starOutline}></IonIcon>
-                <IonIcon className="rating-star" icon={starOutline}></IonIcon>
-                <IonIcon className="rating-star" icon={starOutline}></IonIcon>
-                <IonIcon className="rating-star" icon={starOutline}></IonIcon>
-                <IonIcon className="rating-star" icon={starOutline}></IonIcon>
+                {getStars()}
                 <div className="additional-details">
-                  <span>Based on 24 reviews</span>
+                  <span>Based on {hardwareItem.reviews} reviews</span>
                 </div>
               </div>
             </div>
@@ -73,21 +93,22 @@ const ProductInfo: React.FC = (props) => {
               <div className="quantity-input">
                 <IonItem className="quantity-input-item">
                   <IonLabel position="floating">Quantity</IonLabel>
-                  <IonInput value={1}></IonInput>
+                  <IonInput value={itemQuantity} onIonChange={setItemQuantityFromField}></IonInput>
                 </IonItem>
               </div>
-              <IonChip className="add-button" onClick={() => { addToCart(hardwareItem); }}> Add To Cart</IonChip>
+              <IonChip className="add-button" onClick={() => { addToCart(hardwareItem, itemQuantity); }}> Add To Cart</IonChip>
             </div>
           </footer>
         </div>
       </IonContent>
-    </IonPage>
+      <IonToast
+        isOpen={showAddToCardToast}
+        onDidDismiss={() => setShowAddToCardToast(false)}
+        message="Item added to card"
+        duration={2000}
+      />
+    </IonPage >
   );
 };
 
 export default ProductInfo;
-
-interface ProductInfoProps {
-  children?: React.ReactNode;
-  hardwareItem: HardwareItem;
-}

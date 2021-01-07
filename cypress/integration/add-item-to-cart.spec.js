@@ -1,23 +1,14 @@
-
+const config = require("../../cypress.json");
 context('Cart', () => {
   beforeEach(() => {
-    cy.visit('https://example.cypress.io/commands/files')
-  })
-
-  beforeEach(() => {
-    // load example.json fixture file and store
-    // in the test context object
-    cy.fixture('example.json').as('example')
-  })
+    cy.visit(config.baseURL);
+  });
 
   it('should add item to card', () => {
-    cy.intercept('GET', '**/comments/*', { fixture: 'example.json' }).as('getComment')
-
-    cy.get('.fixture-btn').click()
-
-    cy.wait('@getComment').its('response.body')
-      .should('have.property', 'name')
-      .and('include', 'Using fixtures to represent data')
-  })
-
+    cy.get(".list-item").eq(0)["click"]();
+    cy.get(".add-button").eq(0)["click"]();
+    cy.get("ion-back-button").eq(0)["click"]();
+    cy.get("ion-icon.cart-icon").eq(0)["click"]();
+    cy.get(".product-details-row").should('have.length', 1);
+  });
 })

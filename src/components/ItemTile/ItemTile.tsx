@@ -1,10 +1,11 @@
 import { IonRippleEffect } from '@ionic/react';
-import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { HardwareItem } from '../../misc/HardwareItem';
 import { Routes } from '../../misc/Routes';
 import { ReduxActions } from '../../redux/store';
+import React from 'react';
+import ItemImage from '../ItemImage/ItemImage';
 import './ItemTile.scss';
 
 const ItemTile = (props: ItemTileProps): React.ReactElement => {
@@ -17,15 +18,23 @@ const ItemTile = (props: ItemTileProps): React.ReactElement => {
   }
 
   return (
-    <div className="list-item  ion-activatable ripple-parent" onClick={() => { viewProductInfo(props.hardwareItem) }}>
-      <div className="item-image">
-        <img src={props.hardwareItem.image} />
+    <div className="list-item ion-activatable ripple-parent" onClick={() => { viewProductInfo(props.hardwareItem) }}>
+      <div className="item-image-container">
+        <div className="item-image">
+          <ItemImage imageURL={[props.hardwareItem.image]}></ItemImage>
+        </div>
       </div>
       <div className="item-description">
-        <h1>Hammer</h1>
-        <span>A general purpose Hammer</span>
+        <div className="item-label">
+          <span>{props.hardwareItem.label}</span>
+        </div>
+        <div className="item-info-container">
+          <div className="item-info">
+            <span>{props.hardwareItem.description}</span>
+          </div>
+        </div>
         <div className="item-cost-container">
-          <span>$550</span>
+          <span>${props.hardwareItem.cost.toFixed(2)}</span>
         </div>
       </div>
       <div>

@@ -1,15 +1,27 @@
-import { HardwareItem } from "../../misc/HardwareItem"
+import { CartItem } from "../../misc/CartItem";
+import { Order } from "../../misc/Order";
 
 export abstract class CartActions {
-  public static add(hardwareItem: HardwareItem) {
+  public static add(cartItem: CartItem) {
     return {
       type: "ADD",
-      hardwareItem
+      cartItem
     }
   }
-  public static remove() {
+  public static emptyCart() {
     return {
-      type: "REMOVE"
+      type: "EMPTY",
+    }
+  }
+  public static setOrder(order: Order) {
+    return {
+      type: "ORDER",
+      order
+    }
+  }
+  public static toggleOrderOff() {
+    return {
+      type: "ORDER_OFF",
     }
   }
 }

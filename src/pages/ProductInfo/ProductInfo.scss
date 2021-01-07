@@ -45,7 +45,11 @@
         border-left: 1px solid lightgray;
         .rating-star {
           font-size: 24px;
-          --color: black;
+          color: lightgray;
+        }
+        .rating-star-filled {
+          font-size: 24px;
+          color: yellow;
         }
       }
       .additional-details {

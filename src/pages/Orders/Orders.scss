@@ -1,0 +1,44 @@
+#orderPage {
+  .init-div,
+  .empty-orders-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    color: rgb(100, 100, 100);
+    .history-icon {
+      font-size: 30px;
+    }
+  }
+
+  .init-div {
+    .spinner {
+      color: var(--ion-color-primary);
+      width: 50px !important;
+      height: 50px !important;
+    }
+  }
+
+  .order-list-item {
+    position: relative;
+    width: 100%;
+    border-bottom: 1px solid lightgray;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    .order-details {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      .order-timestamp {
+        font-size: 12px;
+      }
+    }
+    .icon {
+      font-size: 22px;
+    }
+  }
+}

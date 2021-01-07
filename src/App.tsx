@@ -27,6 +27,7 @@ import { Routes } from './misc/Routes';
 import ProductInfo from './pages/ProductInfo/ProductInfo';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
+import Orders from './pages/Orders/Orders';
 
 const App: React.FC = () => (
   <IonApp>
@@ -35,6 +36,7 @@ const App: React.FC = () => (
         <IonRouterOutlet>
           <Route path={"/" + Routes.home} component={Home} exact={true} />
           <Route path={"/" + Routes.cart} component={Cart} exact={true} />
+          <Route path={"/" + Routes.orders} component={Orders} exact={true} />
           <Route path={"/" + Routes.productInfo} component={ProductInfo} exact={true} />
           <Route exact path="/" render={() => <Redirect to="/home" />} />
         </IonRouterOutlet>
