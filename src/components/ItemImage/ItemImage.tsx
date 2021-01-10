@@ -20,6 +20,6 @@ const ItemImage = function (props: ItemImageProps): React.ReactElement {
 
 export default ItemImage;
 
-interface ItemImageProps {
+export interface ItemImageProps {
   imageURL: Array<string>
 }

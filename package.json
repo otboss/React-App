@@ -29,8 +29,8 @@
     "typescript": "3.8.3"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "eval $(cat .env) react-scripts start",
+    "build": "eval $(cat .env) react-scripts build",
     "test": "react-scripts test",
     "e2e": "node_modules/cypress/bin/cypress run",
     "e2e-gui": "node_modules/cypress/bin/cypress open",

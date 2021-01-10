@@ -4,7 +4,7 @@ context('Cart', () => {
     cy.visit(config.baseURL);
   });
 
-  it('should add item to card', () => {
+  it('should add item to cart', () => {
     cy.get(".list-item").eq(0)["click"]();
     cy.get(".add-button").eq(0)["click"]();
     cy.get("ion-back-button").eq(0)["click"]();
